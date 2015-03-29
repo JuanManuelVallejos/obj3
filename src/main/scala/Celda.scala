@@ -1,9 +1,9 @@
+import scala.collection.mutable.ListBuffer
 
 class Celda() {
 
-  var personajes = List[Personaje]()
+  var personajes = new ListBuffer[Personaje]()
 
-  def agregarPersonajes(cantPers : Int, jugador: Jugador) {personajes = new Personaje(jugador) :: personajes}
-
-
+  def agregarPersonajes(cantPers : Int, jugador: Jugador, tablero: Tablero) {personajes += new Personaje(jugador, tablero)}
+  
 }

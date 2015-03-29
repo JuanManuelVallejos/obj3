@@ -1,6 +1,6 @@
 import scala.collection.mutable.Map
 
-class Tablero (dimension: Int , cantPersonajes: Int, jugador1: Jugador, jugador2: Jugador){
+class Tablero (val dimension: Int ,val cantPersonajes: Int,val  jugador1: Jugador,val jugador2: Jugador){
 
   var mapCoord = Map[(Int,Int), Celda]()
 
@@ -19,12 +19,8 @@ class Tablero (dimension: Int , cantPersonajes: Int, jugador1: Jugador, jugador2
   }
 
   def posicionarJugadores(): Unit ={
-    mapCoord.apply(0,0).agregarPersonajes(cantPersonajes, jugador1)
-    mapCoord.apply(dimension-1 ,dimension-1 ).agregarPersonajes(cantPersonajes, jugador2)
-  }
-
-  def imprimirPrimerasCeldas(): Unit ={
-    println(mapCoord.apply(2,2))
+    mapCoord.apply(0,0).agregarPersonajes(cantPersonajes, jugador1, this)
+    mapCoord.apply(dimension-1 ,dimension-1 ).agregarPersonajes(cantPersonajes, jugador2, this)
   }
 
 }
