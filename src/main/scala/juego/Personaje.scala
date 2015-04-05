@@ -8,9 +8,10 @@ class Personaje(val jugador: Jugador, var celda: Celda){
   val rangoDeEscudo = 1000 to 2000
   val rangoDeExperiencia = 0 to 100
   val rangoDeEnergia = 100 to 200
+
+
   var politicaDeAccion: PoliticaDeAccion = _
   var politicaDeMovimiento: PoliticaDeMovimiento = _
-
   var escudo = rangoDeEscudo(rnd.nextInt(rangoDeEscudo length))
   var experiencia = rangoDeExperiencia(rnd.nextInt(rangoDeExperiencia length))
   var energia = rangoDeEnergia(rnd.nextInt(rangoDeEnergia length))
@@ -34,7 +35,9 @@ class Personaje(val jugador: Jugador, var celda: Celda){
 
   def posicionAMoverse(): (Int, Int) = politicaDeMovimiento.posicionAMoverse
 
-  def celdasVecinasConEnemigos(): List[Celda] = jugador.celdasVecinasConEnemigos(celda)
+  def celdasVecinasConEnemigos: List[Celda] = jugador.celdasVecinasConEnemigos(celda)
+
+  def celdasVecinas: List[Celda] = jugador.celdasVecinas(celda)
 
   def masEnergia(personaje: Personaje): Boolean = energia > personaje.energia
 }

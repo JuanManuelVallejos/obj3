@@ -23,12 +23,12 @@ abstract class PoliticaDeAccion extends Politica {
 }
 
 class Pancho extends PoliticaDeAccion {
-  def condicionDeMovimiento(): Boolean = false
+  def condicionDeMovimiento: Boolean = false
 }
 
 class Colaborador extends PoliticaDeAccion {
 
-  def condicionDeMovimiento(): Boolean = personaje.celdasVecinasConCompanieros().length > 1
+  def condicionDeMovimiento: Boolean = personaje.celdasVecinasConCompanieros.length > 1
 
 }
 
@@ -38,7 +38,7 @@ class Precavido extends PoliticaDeAccion {
     celdas.exists(_.enemigos(personaje).exists(_.masEnergia(personaje)))
   }
 
-  def condicionDeMovimiento(): Boolean = hayEnemigoConMasEnergia(personaje.celdasVecinasConEnemigos())
+  def condicionDeMovimiento: Boolean = hayEnemigoConMasEnergia(personaje.celdasVecinasConEnemigos)
 
 }
 
@@ -48,39 +48,33 @@ abstract class PoliticaDeMovimiento extends Politica {
 
 class EvitarProblemas extends PoliticaDeMovimiento {
 
-  def posicionAMoverse( cond: ()->Boolean): (Int, Int) = {
+  def posicionAMoverse: (Int, Int) = {
+    personaje.celdasVecinasConEnemigos.min(Ordering.by((c:Celda) => c.sumaDePotenciasAtaqueEnemigo(personaje.jugador))).coordenada()
 
-    var menor:Celda = null
-
-    if(personaje.celdasVecinasConEnemigos() == null){ menor =  personaje.celda}else {
-      menor = personaje.celdasVecinasConEnemigos().apply(0)
-      personaje.celdasVecinasConEnemigos().foreach(celda => if (cond.app > celda.sumaDePotenciasAtaqueEnemigo(personaje.jugador)) menor = celda)
-    }
-    menor.coordenada()
   }
 }
 
 class Atacar extends PoliticaDeMovimiento {
   def posicionAMoverse: (Int, Int) = {
-    var menor:Celda = null
-    if(personaje.celdasVecinasConEnemigos() == null){ menor =  personaje.jugador.tablero.celdaNorte(personaje.celda)}else {
-      menor = personaje.celdasVecinasConEnemigos().apply(0)
-      personaje.celdasVecinasConEnemigos().foreach(celda => if(menor.sumaDePotenciasDefensa(personaje.jugador) > celda.sumaDePotenciasDefensa(personaje.jugador)) menor = celda)
+
+    val celdasVecConEnemigos = personaje.celdasVecinasConEnemigos
+
+    if(celdasVecConEnemigos.isEmpty) personaje.celdasVecinas.head.coordenada()
+    else{
+      celdasVecConEnemigos.min(Ordering.by((c:Celda) => c.sumaDePotenciasDefensaEnemigas(personaje.jugador))).coordenada()
     }
-     menor.coordenada()
   }
 }
-
 
 class Animo extends PoliticaDeMovimiento {
   def posicionAMoverse: (Int, Int) = {
 
     if (personaje.energia > 50) {
-      var ataq = new Atacar
+      val ataq = new Atacar
       ataq.personaje(personaje)
       ataq.posicionAMoverse
     } else {
-      var ev = new EvitarProblemas
+      val ev = new EvitarProblemas
       ev.personaje(personaje)
       ev.posicionAMoverse
     }
@@ -88,15 +82,12 @@ class Animo extends PoliticaDeMovimiento {
 
   class ReforzarAtaque extends PoliticaDeMovimiento {
     def posicionAMoverse: (Int, Int) = {
-      var mayor: Celda = null
-      if (personaje.celdasVecinasConCompanieros() == null) {
-        mayor = personaje.celda
-      } else {
-        mayor = personaje.celdasVecinasConCompanieros().apply(0)
-        personaje.celdasVecinasConCompanieros().foreach(celda => if (mayor.sumaDePotenciasAtaqueAmigo(personaje.jugador) < celda.sumaDePotenciasAtaqueAmigo(personaje.jugador)) mayor = celda)
+
+      val celdasVecConAmigos = personaje.celdasVecinasConCompanieros
+      if (celdasVecConAmigos.isEmpty) personaje.celdasVecinas.head.coordenada()
+      else {
+        celdasVecConAmigos.max(Ordering.by((c: Celda) => c.sumaDePotenciasAtaqueAmigo(personaje.jugador))).coordenada()
       }
-      mayor.coordenada()
     }
   }
-
 }

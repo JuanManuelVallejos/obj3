@@ -20,5 +20,7 @@ class Jugador() {
   def celdasVecinasConCompanieros(celda: Celda) = tablero.celdasVecinasConCompanieros(celda, this)
 
   def celdasVecinasConEnemigos(celda: Celda): List[Celda] = tablero.celdasVecinasConEnemigos(celda, this)
+
+  def celdasVecinas(celda: Celda): List[Celda] = tablero.celdasVecinas(celda)
 }
 
