@@ -1,11 +1,6 @@
 package juego
 
-import scala.collection.mutable.ListBuffer
-
-
-class Celda(val x: Int, val y: Int) {
-
-  var personajes = List[Personaje]()
+class Celda (val x: Int, val y: Int) extends ConPersonajes with ConNombre{
 
   def agregarPersonajes(cantPers : Int, jugador: Jugador) {
     1 to cantPers foreach { _ =>
@@ -13,6 +8,16 @@ class Celda(val x: Int, val y: Int) {
       jugador.agregarPersonaje(personaje)
       personajes = personaje :: personajes
     }
+  }
+
+  def nombre(): String = {
+    s"Celda de posicion ($x,$y)"
+  }
+
+  def agregarPersonaje(personaje : Personaje, jugador: Jugador) {
+
+      jugador.agregarPersonaje(personaje)
+      personajes = personaje :: personajes
   }
 
   def coordenada(): (Int,Int) ={
@@ -57,6 +62,6 @@ class Celda(val x: Int, val y: Int) {
 
   def posibleCoordOeste:(Int,Int)= (x-1,y)
 
-  def posiblesCoordVecinas:List[(Int,Int)] = List(posibleCoordEste, posibleCoordOeste, posibleCoordNorte, posibleCoordSur)
+  def posiblesCoordVecinas:List[(Int,Int)] = List(posibleCoordNorte,posibleCoordEste, posibleCoordSur,posibleCoordOeste)
 
 }
