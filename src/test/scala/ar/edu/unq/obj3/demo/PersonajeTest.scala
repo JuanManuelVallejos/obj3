@@ -4,10 +4,10 @@ import juego.{Tablero, Personaje, Jugador, Celda}
 
 class PersonajeTest extends FlatSpec {
 
-  val jugador = new Jugador()
+  val jugador = new Jugador("")
   val celda = new Celda(5,5)
   val personaje = new Personaje(jugador,celda)
-  val tablero = new Tablero(4,4,4,jugador, new Jugador())
+  val tablero = new Tablero(4,4,4,jugador, new Jugador(""))
 
   personaje.energia = 30
   personaje.escudo = 50

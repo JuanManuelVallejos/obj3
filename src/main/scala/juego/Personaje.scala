@@ -4,6 +4,7 @@ import scala.util.Random
 
 class Personaje(val jugador: Jugador, var celda: Celda){
 
+
   val rnd = new Random()
   val rangoDeEscudo = 1000 to 2000
   val rangoDeExperiencia = 0 to 100
@@ -16,6 +17,16 @@ class Personaje(val jugador: Jugador, var celda: Celda){
   var experiencia = rangoDeExperiencia(rnd.nextInt(rangoDeExperiencia length))
   var energia = rangoDeEnergia(rnd.nextInt(rangoDeEnergia length))
 
+
+  def coordenadasDeCelda: (Int, Int) = (celda.x, celda.y)
+
+  def sugerir: (Int, Int) = {
+    if(condicionDeMovimiento) {
+      posicionAMoverse
+    } else {
+      coordenadasDeCelda
+    }
+  }
 
   def potenciaDeAtaque(): Int = (energia / 3) + (experiencia / 5)
 
@@ -31,9 +42,11 @@ class Personaje(val jugador: Jugador, var celda: Celda){
     movimiento.personaje(this)
   }
 
-  def celdasVecinasConCompanieros() = jugador.celdasVecinasConCompanieros(celda)
+  def celdasVecinasConCompanieros = jugador.celdasVecinasConCompanieros(celda)
 
-  def posicionAMoverse(): (Int, Int) = politicaDeMovimiento.posicionAMoverse
+  def posicionAMoverse: (Int, Int) = politicaDeMovimiento.posicionAMoverse
+
+  def condicionDeMovimiento: (Boolean) = politicaDeAccion.condicionDeMovimiento
 
   def celdasVecinasConEnemigos: List[Celda] = jugador.celdasVecinasConEnemigos(celda)
 

@@ -10,16 +10,6 @@ abstract class PoliticaDeAccion extends Politica {
 
   def condicionDeMovimiento: Boolean
 
-  def coordenadasDeCelda: (Int, Int) = (personaje.celda.x, personaje.celda.y)
-
-  def sugerir: (Int, Int) = {
-    if(condicionDeMovimiento) {
-      personaje.posicionAMoverse
-    } else {
-      coordenadasDeCelda
-    }
-  }
-
 }
 
 class Pancho extends PoliticaDeAccion {
@@ -28,7 +18,7 @@ class Pancho extends PoliticaDeAccion {
 
 class Colaborador extends PoliticaDeAccion {
 
-  def condicionDeMovimiento: Boolean = personaje.celdasVecinasConCompanieros.length > 1
+  def condicionDeMovimiento: Boolean = personaje.celdasVecinasConCompanieros.length <= 1
 
 }
 
@@ -38,7 +28,7 @@ class Precavido extends PoliticaDeAccion {
     celdas.exists(_.enemigos(personaje).exists(_.masEnergia(personaje)))
   }
 
-  def condicionDeMovimiento: Boolean = hayEnemigoConMasEnergia(personaje.celdasVecinasConEnemigos)
+  def condicionDeMovimiento: Boolean = !hayEnemigoConMasEnergia(personaje.celdasVecinasConEnemigos)
 
 }
 
@@ -79,15 +69,16 @@ class Animo extends PoliticaDeMovimiento {
       ev.posicionAMoverse
     }
   }
+}
 
-  class ReforzarAtaque extends PoliticaDeMovimiento {
-    def posicionAMoverse: (Int, Int) = {
+class ReforzarAtaque extends PoliticaDeMovimiento {
 
-      val celdasVecConAmigos = personaje.celdasVecinasConCompanieros
-      if (celdasVecConAmigos.isEmpty) personaje.celdasVecinas.head.coordenada()
-      else {
-        celdasVecConAmigos.max(Ordering.by((c: Celda) => c.sumaDePotenciasAtaqueAmigo(personaje.jugador))).coordenada()
-      }
+  def posicionAMoverse: (Int, Int) = {
+
+    val celdasVecConAmigos = personaje.celdasVecinasConCompanieros
+    if (celdasVecConAmigos.isEmpty) personaje.celdasVecinas.head.coordenada()
+    else {
+      celdasVecConAmigos.max(Ordering.by((c: Celda) => c.sumaDePotenciasAtaqueAmigo(personaje.jugador))).coordenada()
     }
   }
 }
