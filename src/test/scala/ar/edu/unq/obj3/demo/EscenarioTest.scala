@@ -5,8 +5,8 @@ import juego._
 
 class EscenarioTest extends FlatSpec {
 
-  val jugadorA = new Jugador()
-  val jugadorB = new Jugador()
+  val jugadorA = new Jugador("")
+  val jugadorB = new Jugador("")
   val tablero = new Tablero(4, 4, 2, jugadorA, jugadorB)
   tablero.initialize()
 
