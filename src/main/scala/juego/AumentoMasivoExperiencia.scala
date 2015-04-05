@@ -1,16 +1,17 @@
 package juego
 
-class AumentoMasivoExperiencia(val sobreQueCosa: ConPersonajes with ConNombre) {
+
+class AumentoMasivoExperiencia(val sobreQueCosa: AumentoMasivoExperiencia) {
 
   var seEjecuto = false
   def ejecutar {
     if (!seEjecuto) sobreQueCosa.aumentarMasivamenteExperiencia
-    seEjecuto = true
+      seEjecuto = true
   }
 
-  override def toString =
-    "Aumento masivo de experiencia sobre " +
-      sobreQueCosa.nombre + " : " +
-      (if (seEjecuto) "ejecutado" else "pendiente")
+  def toString =
+  "Aumento masivo de experiencia sobre " +
+    sobreQueCosa.nombre + " : " +
+    (if (seEjecuto) "ejecutado" else "pendiente")
 
 }

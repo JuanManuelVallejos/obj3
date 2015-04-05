@@ -5,8 +5,8 @@ import juego.{EvitarProblemas, Pancho, Jugador, Tablero}
 
 class WorldTest extends FlatSpec{
 
-  val jugA = new Jugador("")
-  val jugB = new Jugador("")
+  val jugA = new Jugador
+  val jugB = new Jugador
   val tablero = new Tablero(4,4,2,jugA,jugB)
 
   val persA = jugA.personajes

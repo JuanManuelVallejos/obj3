@@ -4,8 +4,8 @@ import juego.{Personaje, Jugador, Celda}
 
 class CeldaTest extends FlatSpec{
 
-    val jugador = new Jugador("")
-    val jugador1 = new Jugador("")
+    val jugador = new Jugador()
+    val jugador1 = new Jugador()
 
 
   "Agregar personajes con argumento 18" should "agregar 18 personajes" in{

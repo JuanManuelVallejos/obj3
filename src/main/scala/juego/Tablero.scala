@@ -7,17 +7,17 @@ class Tablero (dimensionX: Int, dimensionY: Int, cantPersonajes: Int, jugador1: 
 
   var mapCoord = Map[(Int,Int), Celda]()
 
+  //PRECOND: no se debe agregar una celda fuera de las dimensiones del tablero
   def crearYUbicarCelda(x: Int, y:Int) {
     val celda = new Celda(x, y)
     mapCoord += ((x,y) -> celda)
   }
-  //PRECOND: no se debe agregar una celda fuera de las dimensiones del tablero
 
   def initialize() ={
 
     for(x <- 0 to dimensionX-1 )
-    for(y <- 0 to dimensionY-1)
-    crearYUbicarCelda(x, y)
+      for(y <- 0 to dimensionY-1)
+        crearYUbicarCelda(x, y)
 
     posicionarPersonajes()
 
